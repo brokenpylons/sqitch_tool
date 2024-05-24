@@ -19,7 +19,7 @@
             duneVersion = "3";
             src = ./.;
 
-            buildInputs = with pkgs.ocamlPackages; [ppx_deriving alcotest fmt uutf uucp];
+            propagatedBuildInputs = with pkgs.ocamlPackages; [ppx_deriving alcotest fmt uutf uucp];
 
             #strictDeps = true;
             doCheck = false;
@@ -33,7 +33,7 @@
               ocp-indent
             ];
             inputsFrom = [
-              self.packages.${system}.te
+              self.packages.${system}.sqitch_tool
             ];
           };
         };

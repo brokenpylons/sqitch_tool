@@ -1,4 +1,4 @@
 (executable
  (public_name sqitch_tool)
  (name main)
- (libraries sqitch_tool))
+ (libraries sqitch_tool uutf))

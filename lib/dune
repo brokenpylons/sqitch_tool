@@ -1,2 +1,3 @@
 (library
- (name sqitch_tool))
+ (name sqitch_tool)
+ (libraries fmt uutf))
