@@ -19,7 +19,7 @@
             duneVersion = "3";
             src = ./.;
 
-            propagatedBuildInputs = with pkgs.ocamlPackages; [ppx_deriving alcotest fmt uutf uucp];
+            propagatedBuildInputs = with pkgs.ocamlPackages; [ppx_deriving alcotest fmt uutf uucp fileutils cmdliner inifiles];
 
             #strictDeps = true;
             doCheck = false;

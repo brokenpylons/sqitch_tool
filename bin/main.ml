@@ -1,15 +1,76 @@
+open Cmdliner
+open Sqitch_tool
+
+let version = "0.0.0"
+
+let conf =
+  let docs = Manpage.s_common_options in
+  let plan_file =
+    let doc = "Path to the deployment plan file." in
+    Arg.(value & opt (some string) None & info ["plan_file"] ~docs ~doc)
+  in
+  let top_dir =
+    let doc = "Top dir." in
+    Arg.(value & opt (some string) None & info ["top_dir"] ~docs ~doc)
+  in
+  Term.(const Actions.conf $ plan_file $ top_dir)
+
+let sdocs = Manpage.s_common_options
+
+let plan conf =
+  Actions.plan conf;
+  `Ok ()
+
+let move conf source target =
+  Actions.move conf source target;
+  `Ok ()
+
+let remove conf target =
+  Actions.remove conf target;
+  `Ok ()
+
+let plan_cmd =
+  let doc = "Print plan" in
+  let info = Cmd.info "plan" ~version ~doc ~sdocs in
+  Cmd.v info Term.(ret (const plan $ conf))
+
+let move_cmd =
+  let doc = "Move change" in
+  let source =
+    let doc = "Source change." in
+    Arg.(required & pos 0 (some string) None & info [] ~docv:"SOURCE" ~doc)
+  in
+  let target =
+    let doc = "Target change." in
+    Arg.(required & pos 1 (some string) None & info [] ~docv:"TARGET" ~doc)
+  in
+  let info = Cmd.info "mv" ~version ~doc ~sdocs in
+  Cmd.v info Term.(ret (const move $ conf $ source $ target))
+
+let remove_cmd =
+  let doc = "Remove change" in
+  let target =
+    let doc = "Target change." in
+    Arg.(required & pos 0 (some string) None & info [] ~docv:"TARGET" ~doc)
+  in
+  let info = Cmd.info "rm" ~version ~doc ~sdocs in
+  Cmd.v info Term.(ret (const remove $ conf $ target))
+
+let help_secs = [
+ `S Manpage.s_common_options;
+ `P "These options are common to all commands.";
+ `S "MORE HELP";
+ `P "Use $(mname) $(i,COMMAND) --help for help on a single command.";
+ `S Manpage.s_bugs; `P "Check bug reports at http://bugs.example.org.";]
 
 
-let p = new Sqitch_tool.Plan.parser (Uutf.decoder (`String "
-%syntax-version=1.0.0
-%project=test
+let main_cmd =
+  let doc = "a sqitch utility" in
+  let man = help_secs in
+  let info = Cmd.info "squitch_tool" ~version ~doc ~sdocs ~man in
+  let default = Term.(ret (const (fun _ -> `Help (`Pager, None)) $ conf)) in
+  Cmd.group info ~default [plan_cmd; move_cmd; remove_cmd]
 
-schema 2024-05-23T11:14:35Z Žiga Leber <mail+github@zigaleber.com> # Add schema
-@1.0.0 2024-05-23T11:14:46Z Žiga Leber <mail+github@zigaleber.com> # Deploy
-schema [schema@1.0.0] 2024-05-23T11:16:00Z Žiga Leber <mail+github@zigaleber.com> # Something
-"))
 
-let () =
-  let plan = p#plan in
-  Fmt.pr "%a" Sqitch_tool.Plan.pp plan;
-  ()
+let main () = exit (Cmd.eval main_cmd)
+let () = main ()
