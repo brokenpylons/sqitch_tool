@@ -67,7 +67,7 @@ let help_secs = [
 let main_cmd =
   let doc = "a sqitch utility" in
   let man = help_secs in
-  let info = Cmd.info "squitch_tool" ~version ~doc ~sdocs ~man in
+  let info = Cmd.info "sqitch_tool" ~version ~doc ~sdocs ~man in
   let default = Term.(ret (const (fun _ -> `Help (`Pager, None)) $ conf)) in
   Cmd.group info ~default [plan_cmd; move_cmd; remove_cmd]
 
