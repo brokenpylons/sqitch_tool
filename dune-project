@@ -11,7 +11,7 @@
 
 (maintainers "Žiga Leber")
 
-(license ICS)
+(license BSD)
 
 (documentation https://github.com/brokenpylons/sqitch_tool)
 
