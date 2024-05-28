@@ -1,1 +1,1 @@
-# Sqitch tool
+# sqitch_tool
