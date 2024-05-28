@@ -5,22 +5,18 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github brokenpylons/sqitch_tool))
 
-(authors "Author Name")
+(authors "Žiga Leber")
 
-(maintainers "Maintainer Name")
+(maintainers "Žiga Leber")
 
-(license LICENSE)
+(license ICS)
 
-(documentation https://url/to/documentation)
+(documentation https://github.com/brokenpylons/sqitch_tool)
 
 (package
  (name sqitch_tool)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml dune uutf)
- (tags
-  (topics "to describe" your project)))
-
-; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project
+ (synopsis "a squitch utility")
+ (description "A utility for refactoring sqitch changes.")
+ (depends ocaml dune fmt uutf fileutils cmdliner))
