@@ -4,12 +4,12 @@ A utility for refactoring [sqitch](https://sqitch.org/) changes.
 
 You can run the program using:
 ```
-nix run github:brokenpylons/squitch_tool
+nix run github:brokenpylons/sqitch_tool
 ```
 
 Or install it permanently using:
 ```
-nix profile install github:brokenpylons/squitch_tool
+nix profile install github:brokenpylons/sqitch_tool
 ```
 
 ## Supported commands
