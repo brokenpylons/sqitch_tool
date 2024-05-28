@@ -39,4 +39,4 @@ squitch_tool mv from_change to_change
 As far as I can tell it works. No tests yet.
 
 ## License
-ISC
+BSD
