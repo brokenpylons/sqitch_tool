@@ -18,21 +18,21 @@ nix profile install github:brokenpylons/sqitch_tool
 Prints the formated plan file.
 
 ```
-squitch_tool plan
+sqitch_tool plan
 ```
 
 ### Remove
 Removes the change from the ```sqitch.plan```, and removes the associated files in the ```deploy```, ```verify```, ```revert``` folders.
 
 ```
-squitch_tool rm change
+sqitch_tool rm change
 ```
 
 ### Move
 Renames the change in the ```sqitch.plan```, and moves the associated files in the ```deploy```, ```verify```, ```revert``` folders.
 
 ```
-squitch_tool mv from_change to_change
+sqitch_tool mv from_change to_change
 ```
 
 ## Status
