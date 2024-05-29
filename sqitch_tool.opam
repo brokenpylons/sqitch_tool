@@ -4,7 +4,7 @@ synopsis: "a squitch utility"
 description: "A utility for refactoring sqitch changes."
 maintainer: ["Žiga Leber"]
 authors: ["Žiga Leber"]
-license: "ICS"
+license: "MIT"
 homepage: "https://github.com/brokenpylons/sqitch_tool"
 doc: "https://github.com/brokenpylons/sqitch_tool"
 bug-reports: "https://github.com/brokenpylons/sqitch_tool/issues"

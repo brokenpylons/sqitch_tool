@@ -56,6 +56,11 @@ let move_files conf source target =
   let open FileUtil in
   let source_file = source ^ ".sql" in
   let target_file = target ^ ".sql" in
+  let target_dir = Filename.dirname target in
+  mkdir ~parent:true (conf.top_dir // "deploy" // target_dir);
+  mkdir ~parent:true (conf.top_dir // "verify" // target_dir);
+  mkdir ~parent:true (conf.top_dir // "revert" // target_dir);
+
   mv (conf.top_dir // "deploy" // source_file) (conf.top_dir // "deploy" // target_file);
   mv (conf.top_dir // "verify" // source_file) (conf.top_dir // "verify" // target_file);
   mv (conf.top_dir // "revert" // source_file) (conf.top_dir // "revert" // target_file)
