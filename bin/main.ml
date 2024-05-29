@@ -61,7 +61,7 @@ let help_secs = [
  `P "These options are common to all commands.";
  `S "MORE HELP";
  `P "Use $(mname) $(i,COMMAND) --help for help on a single command.";
- `S Manpage.s_bugs; `P "Check bug reports at http://bugs.example.org.";]
+ `S Manpage.s_bugs; `P "https://github.com/brokenpylons/sqitch_tool/issues";]
 
 
 let main_cmd =
