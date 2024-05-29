@@ -25,6 +25,10 @@ let move conf source target =
   Actions.move conf source target;
   `Ok ()
 
+let copy conf source target =
+  Actions.copy conf source target;
+  `Ok ()
+
 let remove conf target =
   Actions.remove conf target;
   `Ok ()
@@ -46,6 +50,19 @@ let move_cmd =
   in
   let info = Cmd.info "mv" ~version ~doc ~sdocs in
   Cmd.v info Term.(ret (const move $ conf $ source $ target))
+
+let copy_cmd =
+  let doc = "Copy change" in
+  let source =
+    let doc = "Source change." in
+    Arg.(required & pos 0 (some string) None & info [] ~docv:"SOURCE" ~doc)
+  in
+  let target =
+    let doc = "Target change." in
+    Arg.(required & pos 1 (some string) None & info [] ~docv:"TARGET" ~doc)
+  in
+  let info = Cmd.info "cp" ~version ~doc ~sdocs in
+  Cmd.v info Term.(ret (const copy $ conf $ source $ target))
 
 let remove_cmd =
   let doc = "Remove change" in
@@ -69,7 +86,7 @@ let main_cmd =
   let man = help_secs in
   let info = Cmd.info "sqitch_tool" ~version ~doc ~sdocs ~man in
   let default = Term.(ret (const (fun _ -> `Help (`Pager, None)) $ conf)) in
-  Cmd.group info ~default [plan_cmd; move_cmd; remove_cmd]
+  Cmd.group info ~default [plan_cmd; move_cmd; copy_cmd; remove_cmd]
 
 
 let main () = exit (Cmd.eval main_cmd)

@@ -88,10 +88,21 @@ end
 
 type t = Line.t list
 
-let pp ppf t =
-  Fmt.pf ppf "@[<v>%a@]" (Fmt.list Line.pp) t
+let pp ppf x =
+  Fmt.pf ppf "@[<v>%a@]" (Fmt.list Line.pp) x
 
 let ( let* ) = Option.bind
+
+let find_change f plan =
+  let* line = List.find_opt (function
+      | Line.Change x ->
+        f x
+      | _ -> false)
+      plan
+  in
+  match line with
+  | Line.Change x -> Some x
+  | _ -> None
 
 class visitor = object(self)
 

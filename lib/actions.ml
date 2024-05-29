@@ -19,12 +19,12 @@ let read_plan conf =
   close_in f;
   Fmt.pr "%a@." Plan.pp plan
 
-let transform_plan conf visitor =
+let transform_plan conf t =
   let f = open_in conf.plan_file in
   let parser = new Plan.parser (`Channel f) in
   let plan = parser#plan in
   close_in f;
-  let plan = visitor#plan plan in
+  let plan = t plan in
   let f = open_out conf.plan_file in
   Fmt.pf (Format.formatter_of_out_channel f) "%a@." Plan.pp plan;
   flush f;
@@ -32,6 +32,29 @@ let transform_plan conf visitor =
 
 let plan conf =
   read_plan conf
+
+(* Copy *)
+
+let copy_files conf source target =
+  let open FileUtil in
+  let source_file = source ^ ".sql" in
+  let target_file = target ^ ".sql" in
+  let target_dir = Filename.dirname target in
+  mkdir ~parent:true (conf.top_dir // "deploy" // target_dir);
+  mkdir ~parent:true (conf.top_dir // "verify" // target_dir);
+  mkdir ~parent:true (conf.top_dir // "revert" // target_dir);
+
+  cp [(conf.top_dir // "deploy" // source_file)] (conf.top_dir // "deploy" // target_file);
+  cp [(conf.top_dir // "verify" // source_file)] (conf.top_dir // "verify" // target_file);
+  cp [(conf.top_dir // "revert" // source_file)] (conf.top_dir // "revert" // target_file)
+
+let copy conf source target =
+  copy_files conf source target;
+  transform_plan conf (fun plan ->
+      match Plan.find_change (fun x -> source = x.name) plan with
+      | Some x ->
+        plan @ [Plan.Line.Change {x with name = target}]
+      | None -> plan)
 
 (* Move *)
 
@@ -68,7 +91,7 @@ let move_files conf source target =
 let move conf source target =
   let visitor = new move_visitor source target in
   move_files conf source target;
-  transform_plan conf visitor
+  transform_plan conf visitor#plan
 
 (* Remove *)
 
@@ -99,4 +122,4 @@ let remove_files conf target =
 let remove conf target =
   let visitor = new remove_visitor target in
   remove_files conf target;
-  transform_plan conf visitor
+  transform_plan conf visitor#plan
