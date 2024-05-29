@@ -11,7 +11,7 @@
 
 (maintainers "Žiga Leber")
 
-(license BSD)
+(license MIT)
 
 (documentation https://github.com/brokenpylons/sqitch_tool)
 
